@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import img1 from "@/assets/general section/image1.jpg";
 import img2 from "@/assets/general section/image2.png";
@@ -9,33 +10,38 @@ import img3 from "@/assets/general section/image3.jpg";
 
 const blocks = [
   {
-    badge: "New update",
-    title: "Take the pain out of company admin",
-    desc: "Eliminate the weekly pressure: receipts, payroll, files – all in one place and beautifully organized.",
+    badge: "Full-Stack Development",
+    title: "Complete Web Solutions",
+    desc: "From stunning frontends to robust backends, we build end-to-end web applications using cutting-edge technologies like React, Next.js, Node.js, and cloud platforms.",
     cta: "Learn More",
     image: img1,
-    imageAlt: "Admin dashboard preview",
+    imageAlt: "Full-stack web development showcase",
   },
   {
-    badge: "Ready to scale",
-    title: "Grows with your business",
-    desc: "Start lean, scale confidently. Simple today, mighty tomorrow. Our system adapts as you grow.",
+    badge: "Mobile First",
+    title: "Native & Cross-Platform Apps",
+    desc: "Create engaging mobile experiences with React Native, Flutter, and native iOS/Android development. One codebase, multiple platforms, maximum reach.",
     cta: "Learn More",
     image: img2,
-    imageAlt: "Growth analytics snapshot",
+    imageAlt: "Mobile app development preview",
   },
   {
-    badge: "Control at a glance",
-    title: "Manage your team in one place",
-    desc: "Tasks, approvals, and workflows that keep your team aligned and moving fast – without the chaos.",
+    badge: "AI Integration",
+    title: "Smart Solutions with AI",
+    desc: "Leverage the power of artificial intelligence and machine learning to automate processes, enhance user experiences, and drive intelligent decision-making in your applications.",
     cta: "Learn More",
     image: img3,
-    imageAlt: "Team tasks mobile UI",
+    imageAlt: "AI-powered application interface",
   },
 ];
 
 const CardRow = ({ index, badge, title, desc, cta, image, imageAlt }: any) => {
+  const router = useRouter();
   const imageFirst = index % 2 === 0;
+  
+  const handleCtaClick = () => {
+    router.push('/contact');
+  };
   return (
     <section className="relative py-12 sm:py-16">
       {/* subtle top/bottom glow */}
@@ -88,7 +94,10 @@ const CardRow = ({ index, badge, title, desc, cta, image, imageAlt }: any) => {
             {desc}
           </p>
           <div>
-            <button className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors">
+            <button 
+              onClick={handleCtaClick}
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors"
+            >
               {cta}
               <svg
                 xmlns="http://www.w3.org/2000/svg"

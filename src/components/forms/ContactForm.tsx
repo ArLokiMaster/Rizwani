@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Image from "next/image";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type Channel = "email" | "whatsapp";
@@ -9,6 +10,7 @@ export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [channel, setChannel] = useState<Channel>("email");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverMsg, setServerMsg] = useState<string>("");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,20 +23,20 @@ export default function ContactForm() {
   const canSubmit = useMemo(() => {
     return (
       !!firstName.trim() &&
-      !!lastName.trim() &&
+      !!phone.trim() &&
       !!email.trim() &&
       /.+@.+\..+/.test(email) &&
       !!message.trim() &&
       consent
     );
-  }, [firstName, lastName, email, message, consent]);
+  }, [firstName, phone, email, message, consent]);
 
   function validate(): boolean {
     const next: Record<string, string> = {};
     if (!firstName.trim()) next.firstName = "First name is required";
-    if (!lastName.trim()) next.lastName = "Last name is required";
     if (!email.trim()) next.email = "Email is required";
     else if (!/.+@.+\..+/.test(email)) next.email = "Enter a valid email";
+    if (!phone.trim()) next.phone = "Phone number is required";
     if (!message.trim()) next.message = "Message is required";
     if (!consent) next.consent = "You must agree before sending";
     setErrors(next);
@@ -55,15 +57,29 @@ export default function ContactForm() {
     e.preventDefault();
     if (!validate()) return;
     setStatus("submitting");
+    setServerMsg("");
     try {
       if (channel === "whatsapp") {
         const recipient = "94768965529"; // hotline
-        const raw = `Hello, I'm ${firstName} ${lastName}.\nEmail: ${email}${
-          phone ? `\nPhone: ${phone}` : ""
-        }\nSubject: ${subject}\n\n${message}`;
-        const url = `https://wa.me/${recipient}?text=${encodeURIComponent(raw)}`;
+        const fullName = `${firstName}${lastName ? ` ${lastName}` : ""}`;
+        const raw = [
+          "🟢 New inquiry via Website",
+          "",
+          `👤 Name: ${fullName}`,
+          `📧 Email: ${email}`,
+          `📞 Phone: ${phone}`,
+          "",
+          `📝 Subject: ${subject}`,
+          "",
+          "💬 Message:",
+          message,
+        ].join("\n");
+        const url = `https://wa.me/${recipient}?text=${encodeURIComponent(
+          raw
+        )}`;
         window.open(url, "_blank");
         setStatus("success");
+        setServerMsg("Opening WhatsApp… You can send your message there.");
         clearForm();
         return;
       }
@@ -81,11 +97,14 @@ export default function ContactForm() {
         }),
       });
       const data = await res.json();
-      if (!res.ok || !data?.ok) throw new Error(data?.error || "Failed to send");
+      if (!res.ok || !data?.ok)
+        throw new Error(data?.error || "Failed to send");
       setStatus("success");
+      if (data?.message) setServerMsg(data.message);
       clearForm();
     } catch (err) {
       setStatus("error");
+      setServerMsg("");
     }
   }
 
@@ -99,7 +118,9 @@ export default function ContactForm() {
             type="button"
             onClick={() => setChannel("email")}
             className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
-              channel === "email" ? "bg-emerald-500 text-black" : "text-white/80 hover:bg-white/10"
+              channel === "email"
+                ? "bg-emerald-500 text-black"
+                : "text-white/80 hover:bg-white/10"
             }`}
           >
             Email
@@ -108,7 +129,9 @@ export default function ContactForm() {
             type="button"
             onClick={() => setChannel("whatsapp")}
             className={`px-3 py-1.5 rounded-md text-sm transition-colors ${
-              channel === "whatsapp" ? "bg-emerald-500 text-black" : "text-white/80 hover:bg-white/10"
+              channel === "whatsapp"
+                ? "bg-emerald-500 text-black"
+                : "text-white/80 hover:bg-white/10"
             }`}
           >
             WhatsApp
@@ -118,7 +141,10 @@ export default function ContactForm() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm text-white/70 mb-1" htmlFor="firstName">
+          <label
+            className="block text-sm text-white/70 mb-1"
+            htmlFor="firstName"
+          >
             First name
           </label>
           <input
@@ -137,7 +163,10 @@ export default function ContactForm() {
           )}
         </div>
         <div>
-          <label className="block text-sm text-white/70 mb-1" htmlFor="lastName">
+          <label
+            className="block text-sm text-white/70 mb-1"
+            htmlFor="lastName"
+          >
             Last name
           </label>
           <input
@@ -179,7 +208,7 @@ export default function ContactForm() {
         </div>
         <div>
           <label className="block text-sm text-white/70 mb-1" htmlFor="phone">
-            Phone (optional)
+            Phone (required)
           </label>
           <input
             id="phone"
@@ -188,8 +217,16 @@ export default function ContactForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+94 76 896 5529"
-            className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-emerald-400/50"
+            className={`w-full rounded-lg border bg-black/40 px-4 py-2.5 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-emerald-400/50 ${
+              errors.phone ? "border-red-500/60" : "border-white/10"
+            }`}
           />
+          <p className="mt-1 text-xs text-white/60">
+            WhatsApp number recommended for faster support.
+          </p>
+          {errors.phone && (
+            <p className="mt-1 text-xs text-red-400">{errors.phone}</p>
+          )}
         </div>
       </div>
 
@@ -241,10 +278,15 @@ export default function ContactForm() {
           }`}
         />
         <label htmlFor="consent" className="text-sm text-white/70">
-          I agree to the {" "}
-          <a href="/terms" className="text-white hover:underline">Terms of Service</a>
-          {" "}and{" "}
-          <a href="/privacy" className="text-white hover:underline">Privacy Policy</a>.
+          I agree to the{" "}
+          <a href="/terms" className="text-white hover:underline">
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a href="/privacy" className="text-white hover:underline">
+            Privacy Policy
+          </a>
+          .
         </label>
       </div>
       {errors.consent && (
@@ -261,10 +303,14 @@ export default function ContactForm() {
           className="inline-flex items-center gap-2 rounded-lg bg-emerald-500/90 hover:bg-emerald-400/90 text-black font-medium px-4 py-2.5 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {status === "submitting"
-            ? channel === "email" ? "Sending Email..." : "Opening WhatsApp..."
+            ? channel === "email"
+              ? "Sending Email..."
+              : "Opening WhatsApp..."
             : status === "success"
             ? "Sent!"
-            : channel === "email" ? "Send via Email" : "Send via WhatsApp"}
+            : channel === "email"
+            ? "Send via Email"
+            : "Send via WhatsApp"}
         </button>
       </div>
 
@@ -275,7 +321,8 @@ export default function ContactForm() {
       )}
       {status === "success" && (
         <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 px-3 py-2 text-sm">
-          Thanks! Your message has been sent.
+          {serverMsg ||
+            "Thanks! Your message has been sent. We'll contact you ASAP."}
         </div>
       )}
     </form>

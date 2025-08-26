@@ -41,7 +41,7 @@ export default function ContactPage() {
         </div>
 
         {/* Content grid */}
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 place-items-stretch">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 place-items-stretch max-sm:flex-col-reverse">
           {/* Left: Contact methods / info */}
           <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md">
             <div className="p-6 sm:p-8 md:p-10 space-y-6">
@@ -53,7 +53,6 @@ export default function ContactPage() {
                   Prefer email or socials? We’re available.
                 </p>
               </div>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <a
                   href="mailto:arabdull.dev@gmail.com"
@@ -79,18 +78,72 @@ export default function ContactPage() {
                 >
                   <div className="text-sm text-white/60">Hotline</div>
                   <div className="mt-1 text-white font-medium">
-                    076 896 5529
+                    +94 768 965 529
                   </div>
                 </a>
                 <div className="group rounded-xl border border-white/10 bg-white/5 p-4">
                   <div className="text-sm text-white/60">Base</div>
                   <div className="mt-1 text-white font-medium inline-flex items-center gap-2">
-                    <span role="img" aria-label="Sri Lanka flag">🇱🇰</span>
+                    <span role="img" aria-label="Sri Lanka flag">
+                      🇱🇰
+                    </span>
                     Sri Lanka
                   </div>
                 </div>
               </div>
+              {/* Client panel & support */}
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+                <h3 className="text-lg font-semibold text-white">
+                  Client Panel & Continuous Support
+                </h3>
+                <p className="text-white/70 text-sm mt-1">
+                  Every Rizwani client receives a secure dashboard to track
+                  progress, share feedback, and chat with our team—backed by
+                  ongoing support long after launch.
+                </p>
 
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="rounded-xl border border-white/10 bg-black/30 p-4 text-center">
+                    <img
+                      src="/globe.svg"
+                      alt="Dashboard"
+                      className="mx-auto h-8 w-8 opacity-90"
+                    />
+                    <div className="mt-2 text-sm text-white">
+                      Personal Dashboard
+                    </div>
+                    <div className="text-xs text-white/60">
+                      Central hub for your project
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-black/30 p-4 text-center">
+                    <img
+                      src="/file.svg"
+                      alt="Updates"
+                      className="mx-auto h-8 w-8 opacity-90"
+                    />
+                    <div className="mt-2 text-sm text-white">
+                      Real‑time Updates
+                    </div>
+                    <div className="text-xs text-white/60">
+                      Milestones, builds, notes
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-black/30 p-4 text-center">
+                    <img
+                      src="/next.svg"
+                      alt="Support"
+                      className="mx-auto h-8 w-8 opacity-90"
+                    />
+                    <div className="mt-2 text-sm text-white">
+                      Dedicated Support
+                    </div>
+                    <div className="text-xs text-white/60">
+                      Our team is with you 24/7
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="rounded-xl border border-white/10 bg-black/40 p-4">
                 <p className="text-white/70 text-sm">
                   We respect your privacy. Your data will never be shared and is
@@ -112,11 +165,12 @@ export default function ContactPage() {
         {/* Map card */}
         <div className="relative h-[320px] sm:h-[380px] md:h-[420px] w-full mt-20">
           <iframe
-            title="Google Map"
-            src="https://www.google.com/maps?q=Rizwani&output=embed"
-            className="absolute inset-0 h-full w-full filter invert hue-rotate-180 saturate-150 contrast-125 brightness-90"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15824.995622213679!2d80.20903579052141!3d7.437687558460981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae3246e2a3b43bf%3A0x7638d4647992863d!2sNarammala!5e0!3m2!1sen!2slk!4v1756041560641!5m2!1sen!2slk"
+            width="600"
+            height="450"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            className="absolute inset-0 h-full w-full filter invert hue-rotate-180 saturate-150 contrast-125 brightness-90"
           />
         </div>
       </section>

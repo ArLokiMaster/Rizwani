@@ -81,12 +81,19 @@ const Header: React.FC = () => {
   useEffect(() => {
     if (state.isMenuOpen) {
       document.body.style.overflow = "hidden";
+      // Ensure system cursor stays visible above the full-screen menu overlay
+      document.body.style.cursor = "auto";
+      document.body.classList.add("menu-open");
     } else {
       document.body.style.overflow = "";
+      document.body.style.cursor = "";
+      document.body.classList.remove("menu-open");
     }
 
     return () => {
       document.body.style.overflow = "";
+      document.body.style.cursor = "";
+      document.body.classList.remove("menu-open");
     };
   }, [state.isMenuOpen]);
 

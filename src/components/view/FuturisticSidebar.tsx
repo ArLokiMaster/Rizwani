@@ -68,7 +68,7 @@ const FuturisticSidebar: React.FC<FuturisticSidebarProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex flex-col lg:flex-row will-change-transform"
+          className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex flex-col lg:flex-row will-change-transform cursor-default"
           variants={overlayVariants}
           initial="closed"
           animate="open"
@@ -127,11 +127,11 @@ const FuturisticSidebar: React.FC<FuturisticSidebarProps> = ({
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.18, ease: "easeInOut" as any }}
-                    className="group"
+                    className="group cursor-pointer"
                   >
                     <motion.a
                       href={item.href}
-                      className="text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight hover:text-white/80 transition-colors duration-200 flex gap-5 items-center justify-start lg:justify-end group nav-item will-change-transform"
+                      className="text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight hover:text-white/80 transition-colors duration-200 flex gap-5 items-center justify-start lg:justify-end group nav-item will-change-transform cursor-pointer"
                       onClick={onClose}
                     >
                       <ShinyText

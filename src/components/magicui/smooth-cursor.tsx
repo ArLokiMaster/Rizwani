@@ -90,6 +90,7 @@ export function SmoothCursor({
   },
 }: SmoothCursorProps) {
   const [isMoving, setIsMoving] = useState(false);
+  const [visible, setVisible] = useState(true);
   const lastMousePos = useRef<Position>({ x: 0, y: 0 });
   const velocity = useRef<Position>({ x: 0, y: 0 });
   const lastUpdateTime = useRef(Date.now());
@@ -170,12 +171,30 @@ export function SmoothCursor({
       });
     };
 
-    document.body.style.cursor = "none";
+    const applyVisibility = () => {
+      const menuOpen = document.body.classList.contains("menu-open");
+      if (menuOpen) {
+        document.body.style.cursor = "auto";
+        setVisible(false);
+      } else {
+        document.body.style.cursor = "none";
+        setVisible(true);
+      }
+    };
+
+    // Initial apply
+    applyVisibility();
+
+    // Observe class changes on body to react to menu-open toggles
+    const observer = new MutationObserver(() => applyVisibility());
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
     window.addEventListener("mousemove", throttledMouseMove);
 
     return () => {
       window.removeEventListener("mousemove", throttledMouseMove);
       document.body.style.cursor = "auto";
+      observer.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, [cursorX, cursorY, rotation, scale]);
@@ -192,6 +211,7 @@ export function SmoothCursor({
         scale: scale,
         zIndex: 100,
         pointerEvents: "none",
+        display: visible ? "block" : "none",
         willChange: "transform",
       }}
       initial={{ scale: 0 }}

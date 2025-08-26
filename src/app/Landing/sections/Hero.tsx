@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // Import components
 import Beams from "@/components/Beams/Beams";
@@ -65,6 +66,7 @@ const brandLogos = [
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const router = useRouter();
   // simple autoplay
   useEffect(() => {
     const timer = setInterval(() => {
@@ -145,6 +147,7 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
               className="w-full sm:w-auto"
+              onClick={() => router.push("/contact")}
             >
               <GlassSurface
                 width={180}
@@ -164,6 +167,7 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
               className="w-full sm:w-auto"
+              onClick={() => router.push("/pricing")}
             >
               <GlassSurface
                 width={120}
@@ -176,7 +180,7 @@ const HeroSection = () => {
               </GlassSurface>
             </motion.div>
           </div>{" "}
-          <AiTextBox />
+          {/* Removed inner AiTextBox to keep only the main-layer instance */}
         </motion.div>
 
         {/* Image Slider - Mobile: below text, Desktop: right */}
@@ -184,9 +188,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-          className="flex-1 flex items-center lg:items-end relative h-64 sm:h-80 md:h-96 lg:h-full w-full justify-center lg:justify-end overflow-hidden order-2 lg:order-2"
+          className="flex-1 flex items-end relative h-64 sm:h-80 md:h-96 lg:h-full w-full justify-center lg:justify-end overflow-hidden order-2 lg:order-2"
         >
-          <div className="relative w-full h-full mt-10 lg:mt-10">
+          <div className="relative w-full h-full">
             {heroContent.map((content, idx) => (
               <motion.div
                 key={content.id}
@@ -203,7 +207,7 @@ const HeroSection = () => {
                   alt={`Hero slide ${content.id}`}
                   width={500}
                   height={500}
-                  className="object-contain w-full h-full lg:absolute lg:bottom-0"
+                  className="object-contain w-full h-full absolute bottom-0"
                   priority={idx === 0}
                 />
               </motion.div>

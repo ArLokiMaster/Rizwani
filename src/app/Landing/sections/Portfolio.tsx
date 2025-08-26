@@ -17,16 +17,16 @@ const projects = [
     url: "https://aviatetravels.lk//",
   },
   {
-    title: "Strawberry Honey Delight Ice Cream",
+    title: "Strawberry Honey Delights",
     story:
-      "A premium artisan ice‑cream brand site with seasonal flavors, rich product photography, and a lightweight CMS for easy content updates. Focused on storytelling and conversions.",
+      "Developed branding and packaging design for a premium Tamil Nadu-based ice cream brand, emphasizing regional identity, authentic storytelling, and modern visual appeal to connect with local consumers. Created label designs that balanced tradition with a fresh, contemporary look.",
     img: IceCream,
     url: "",
   },
   {
-    title: "NenoPix POS System",
+    title: "Neno Pix Multi-Branch Store",
     story:
-      "A robust POS solution with inventory, billing, and analytics. Built for reliability with offline‑first patterns and role‑based access control for multi‑store operations.",
+      "A comprehensive retail management system for Malaysian multi-branch operations. Features real-time inventory sync, centralized reporting, staff management, and localized payment integration across multiple store locations.",
     img: POS,
     url: "",
   },
@@ -79,7 +79,7 @@ const Portfolio: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
 
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 md:group-hover:opacity-100 transition-opacity duration-300">
                   {p.url ? (
                     <a
                       href={p.url}
@@ -91,11 +91,20 @@ const Portfolio: React.FC = () => {
                       <Link size={22} />
                     </a>
                   ) : (
-                    <span className="flex gap-1 items-center justify-center px-3 py-3 rounded-full bg-white/10 backdrop-blur text-white text-xs tracking-wide border border-white/20">
+                    <span className="hidden md:flex gap-1 items-center justify-center px-3 py-3 rounded-full bg-white/10 backdrop-blur text-white text-xs tracking-wide border border-white/20">
                       <Lock size={18} /> Private Project
                     </span>
                   )}
                 </div>
+
+                {/* Mobile-only private indicator */}
+                {!p.url && (
+                  <div className="md:hidden absolute top-3 right-3">
+                    <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-black/60 backdrop-blur text-white text-xs border border-white/20">
+                      <Lock size={14} /> Private
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="p-5">
                 <h3 className="text-lg font-medium">{p.title}</h3>
@@ -109,10 +118,13 @@ const Portfolio: React.FC = () => {
         <div ref={belowRef} className="mt-12">
           {phase === "loading" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Show only 1 skeleton on mobile, all 3 on larger screens */}
               {[0, 1, 2].map((k) => (
                 <div
                   key={k}
-                  className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 animate-pulse"
+                  className={`rounded-2xl overflow-hidden border border-white/10 bg-white/5 animate-pulse ${
+                    k > 0 ? "hidden md:block" : ""
+                  }`}
                 >
                   <div className="h-64 bg-white/10" />
                   <div className="p-5 space-y-2">

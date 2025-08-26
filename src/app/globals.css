@@ -7,6 +7,12 @@ body {
   background: #000000;
 }
 
+/* Ensure system cursor stays visible when menu overlay is open */
+.menu-open,
+.menu-open * {
+  cursor: auto !important;
+}
+
 /* Custom animations for Hero section */
 @keyframes scroll-left {
   0% {

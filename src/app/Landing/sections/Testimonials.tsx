@@ -160,7 +160,7 @@ function Card({ t, i }: { t: Testimonial; i: number }) {
           <StarRating rating={t.rating} />
         </div>
         <blockquote className="mt-3 text-white/80 leading-snug text-sm font-[inter]">
-          “{t.quote}”
+          {t.quote}
         </blockquote>
       </div>
     </motion.figure>

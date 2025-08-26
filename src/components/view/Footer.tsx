@@ -2,9 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Logo from "@/assets/logo.svg";
+import Logo from "@/assets/Rizwani Main Logo.jpg";
 import dynamic from "next/dynamic";
 import GlassSurface from "../GlassSurface/GlassSurface";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram,
+  Mail,
+  Phone,
+} from "lucide-react";
 
 const Orb = dynamic(() => import("@/components/Orb/Orb"), { ssr: false });
 
@@ -170,7 +178,7 @@ const Footer: React.FC = () => {
             </p>
             <div className=" mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
-                href="#contact"
+                href="/contact"
                 className="rounded-full px-6 py-3 bg-white text-black font-medium hover:bg-white/90 transition-colors"
               >
                 Start your project
@@ -180,7 +188,7 @@ const Footer: React.FC = () => {
                 borderRadius={150}
                 className="rounded-full"
               >
-                <Link href="#contact">Talk to an expert</Link>
+                <Link href="/contact">Talk to an expert</Link>
               </GlassSurface>
             </div>
             {/* Orb CTA mini-section */}
@@ -239,37 +247,118 @@ const Footer: React.FC = () => {
         {/* divider */}
         <div className="my-8 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* bottom row */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="text-sm text-white/60">
-            © {year} Rizwani Solutions. All rights reserved.
+        {/* bottom row with enhanced content */}
+        <div className="space-y-6">
+          {/* Social & Contact Info */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
+              {/* Contact Info */}
+              <div className="flex items-center gap-4 text-sm text-white/70">
+                <a
+                  href="mailto:hello@rizwani.com"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  support@rizwani.com
+                </a>
+                <a
+                  href="tel:+94123456789"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
+                  <Phone className="h-4 w-4" />
+                  +94 76 896 5529
+                </a>
+              </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-white/60">Follow us:</span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://github.com/rizwani"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-200 hover:scale-105"
+                  aria-label="GitHub"
+                >
+                  <Github className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://linkedin.com/company/rizwani"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-200 hover:scale-105"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://twitter.com/rizwani"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-200 hover:scale-105"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://instagram.com/rizwani"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-200 hover:scale-105"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
           </div>
-          <nav className="flex flex-wrap items-center gap-4 text-sm">
-            <Link
-              href="/pricing"
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/contact"
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              Contact
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-white/60 hover:text-white transition-colors"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-white/60 hover:text-white transition-colors"
-            >
-              Terms
-            </Link>
-          </nav>
+
+          {/* Copyright & Navigation */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-white/10">
+            <div className="text-sm text-white/60">
+              © {year} Rizwani Solutions. All rights reserved.
+            </div>
+            <nav className="flex flex-wrap items-center gap-4 text-sm">
+              <Link
+                href="/about"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                About
+              </Link>
+              <Link
+                href="/services"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                Services
+              </Link>
+              <Link
+                href="/pricing"
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/contact"
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                Contact
+              </Link>
+              <Link
+                href="/privacy"
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                Privacy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                Terms
+              </Link>
+            </nav>
+          </div>
         </div>
       </div>
     </footer>

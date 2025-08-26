@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LandingHomePage from "@/app/Landing/page";
+import InitialLoader from "@/components/InitialLoader/InitialLoader";
 
 export const metadata: Metadata = {
   title: "Custom Software Development in Sri Lanka",
@@ -26,5 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <LandingHomePage />;
+  return (
+    <>
+      <InitialLoader />
+      <LandingHomePage />
+    </>
+  );
 }

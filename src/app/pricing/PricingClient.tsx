@@ -12,7 +12,6 @@ import {
 } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi";
 import DarkVeil from "@/components/DarkVeil/DarkVeil";
-import TargetCursor from "@/components/TargetCursor/TargetCursor";
 
 export interface PricingPlanUI {
   name: string; // plan title
@@ -73,7 +72,7 @@ export default function PricingClient({ pricingData }: { pricingData: PricingDat
 
   return (
     <>
-      {!isMobile && <TargetCursor targetSelector=".cursor-target" />}
+      {/* Removed TargetCursor (GSAP dependency) to avoid module not found and keep animations out of non-menu pages */}
 
       <div ref={containerRef} className="min-h-screen text-white relative overflow-x-hidden">
         {/* Dark Veil Background */}

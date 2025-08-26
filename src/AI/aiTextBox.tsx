@@ -20,6 +20,11 @@ const AiTextBox = () => {
     const onScroll = () => {
       const el = anchorRef.current;
       if (!el) return;
+      // On small screens keep the box always visible (docked) to avoid hiding
+      if (typeof window !== "undefined" && window.innerWidth <= 640) {
+        setDocked(true);
+        return;
+      }
       const rect = el.getBoundingClientRect();
       const shouldDock = rect.top < 80 || rect.bottom < 120;
       setDocked(shouldDock);

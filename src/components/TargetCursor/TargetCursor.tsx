@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { gsap } from "gsap";
 
 export interface TargetCursorProps {
@@ -35,13 +35,25 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     });
   }, []);
 
+  const [visible, setVisible] = useState(true);
+
   useEffect(() => {
     if (!cursorRef.current) return;
 
     const originalCursor = document.body.style.cursor;
-    if (hideDefaultCursor) {
-      document.body.style.cursor = 'none';
-    }
+    const applyVisibility = () => {
+      const menuOpen = document.body.classList.contains('menu-open');
+      if (menuOpen) {
+        document.body.style.cursor = 'auto';
+        setVisible(false);
+      } else {
+        if (hideDefaultCursor) document.body.style.cursor = 'none';
+        setVisible(true);
+      }
+    };
+    applyVisibility();
+    const observer = new MutationObserver(() => applyVisibility());
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     const cursor = cursorRef.current;
     cornersRef.current = cursor.querySelectorAll<HTMLDivElement>(
@@ -320,6 +332,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
       spinTl.current?.kill();
       document.body.style.cursor = originalCursor;
+      observer.disconnect();
     };
   }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor]);
 
@@ -337,8 +350,8 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   return (
     <div 
       ref={cursorRef} 
-      className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[9999] mix-blend-difference transform -translate-x-1/2 -translate-y-1/2"
-      style={{ willChange: 'transform' }}
+      className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[100000] mix-blend-difference transform -translate-x-1/2 -translate-y-1/2"
+      style={{ willChange: 'transform', display: visible ? 'block' : 'none' }}
     >
       <div ref={dotRef}
         className="absolute left-1/2 top-1/2 w-1 h-1 bg-white rounded-full transform -translate-x-1/2 -translate-y-1/2" 
